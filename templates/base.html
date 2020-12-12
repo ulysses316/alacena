@@ -23,7 +23,7 @@
     {% block content %}
     {% endblock %}
 
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 </body>
 </html>
 
