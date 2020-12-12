@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/normalize.css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/master.css') }}">
+    {% endblock %}
+    <title>Document</title>
+</head>
+<body>
+    <!-- Just an image -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container d-flex justify-content-center">
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='images/box.png') }}" alt="" width="50">
+        </a>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
