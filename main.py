@@ -1,5 +1,10 @@
 from flask import Flask, url_for, render_template, redirect, session
 from authlib.integrations.flask_client import OAuth
+from credentials import c_id, c_secret
+
+# Decorator for routes
+
+from auth_decorator import login_required
 
 app = Flask(__name__)
 app.secret_key = 'Esta es mi super llave secreta'
@@ -9,8 +14,8 @@ app.secret_key = 'Esta es mi super llave secreta'
 oauth = OAuth(app)
 google = oauth.register(
     name='google',
-    client_id='GOOGLE_CLIENT_ID"',
-    client_secret='GOOGLE_CLIENT_SECRET"',
+    client_id= c_id,
+    client_secret=c_secret,
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_params=None,
     authorize_url='https://accounts.google.com/o/oauth2/auth',
@@ -24,15 +29,15 @@ def index():
     return render_template("index.html")
 
 @app.route('/products')
+@login_required
 def products():
     return render_template("products.html")
 
-
 @app.route('/user')
+@login_required
 def user():
-    email = dict(session).get('email',None)
-    #return f"hello, {email}!"
-    return render_template("user.html", email=email)
+    profile = dict(session).get('profile',None)
+    return render_template("user.html", profile=profile)
 
 
 
@@ -51,7 +56,8 @@ def authorize():
     resp = google.get('userinfo')
     user_info = resp.json()
     # do something with the token and profile
-    session['email'] = user_info['email']
+    session['profile'] = user_info
+    session.permanent = True
     return redirect('/products')
 
 @app.route('/logout')
